@@ -5,7 +5,7 @@ import secrets
 
 base_url = "https://api.notion.com/v1/databases/"
 database_id = "5307c064ec0745ec892c92808f6b00dd"
-request_headers = {"Authorization": secrets.KEY, "Notion-Version": "2022-02-22"}
+request_headers = {"Authorization": secrets.KEY, "Notion-Version": "2022-06-28"}
 
 next_cursor = ""
 has_more = None
@@ -59,10 +59,28 @@ def check_connectivity():
 
 def check_query(next_cursor: str):
     if not len(next_cursor):
-        query = {"filter": {"property": "Done", "checkbox": {"equals": True}}}
+        query = {
+            "filter": {
+                "and": [
+                    {"property": "Done", "checkbox": {"equals": True}},
+                    {
+                        "property": "Data Structures",
+                        "multi_select": {"contains": "Linked List"},
+                    },
+                ]
+            }
+        }
     else:
         query = {
-            "filter": {"property": "Done", "checkbox": {"equals": True}},
+            "filter": {
+                "and": [
+                    {"property": "Done", "checkbox": {"equals": True}},
+                    {
+                        "property": "Data Structures",
+                        "multi_select": {"contains": "Linked List"},
+                    },
+                ]
+            },
             "start_cursor": next_cursor,
         }
     return query
@@ -104,6 +122,7 @@ def decode_data(json_data):
 def get_all_records():
     start_cursor = ""
     response = retrieve_data(check_query(start_cursor))
+
     has_more = response["has_more"]
     pagination_list.append(response)
     start_cursor = response["next_cursor"]
@@ -149,4 +168,5 @@ get_all_records()
 print(len(pagination_list))
 # print(dict_decoder(response1))
 print(len(problem_list))
-print(problem_map[1])
+print(problem_map)
+# check_connectivity()
