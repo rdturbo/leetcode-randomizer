@@ -1,11 +1,10 @@
 import requests
-import secrets
 
-# import json
+from config import settings
 
 base_url = "https://api.notion.com/v1/databases/"
-database_id = "5307c064ec0745ec892c92808f6b00dd"
-request_headers = {"Authorization": secrets.KEY, "Notion-Version": "2022-06-28"}
+database_id = settings.db_id
+request_headers = {"Authorization": settings.api_key, "Notion-Version": "2022-06-28"}
 
 next_cursor = ""
 has_more = None
