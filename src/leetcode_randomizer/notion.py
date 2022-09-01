@@ -1,6 +1,7 @@
 import requests
 import secrets
-import json
+
+# import json
 
 base_url = "https://api.notion.com/v1/databases/"
 database_id = "5307c064ec0745ec892c92808f6b00dd"
@@ -17,6 +18,7 @@ query2 = {
 pagination_list = []
 problem_map = {}
 problem_list = []
+
 
 # Check for connectivity with notion API
 def check_connectivity():
@@ -50,8 +52,8 @@ def check_connectivity():
 
             return False
         # Exception handling
-        except:
-            print("Some exception occured...please try again")
+        except Exception as err:
+            print("Some exception occured...please try again", err)
             return False
 
 
