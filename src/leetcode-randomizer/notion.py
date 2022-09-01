@@ -1,19 +1,18 @@
-from email.policy import default
 import requests
 import secrets
 import json
 
 base_url = "https://api.notion.com/v1/databases/"
 database_id = "5307c064ec0745ec892c92808f6b00dd"
-request_headers = {
-    "Authorization": secrets.KEY, 
-    "Notion-Version": "2022-02-22"
-    }
+request_headers = {"Authorization": secrets.KEY, "Notion-Version": "2022-02-22"}
 
 next_cursor = ""
 has_more = None
 query1 = {"filter": {"property": "Done", "checkbox": {"equals": True}}}
-query2 = {"filter": {"property": "Done", "checkbox": {"equals": True}}, "start_cursor": next_cursor}
+query2 = {
+    "filter": {"property": "Done", "checkbox": {"equals": True}},
+    "start_cursor": next_cursor,
+}
 
 pagination_list = []
 problem_map = {}
@@ -23,7 +22,7 @@ problem_list = []
 def check_connectivity():
 
     # Send get request to API and capture response
-    response = requests.get(base_url + database_id, headers = request_headers)
+    response = requests.get(base_url + database_id, headers=request_headers)
 
     # If response status code is 2000 i.e. the response is successfull
     # continue and leave the function
@@ -60,21 +59,26 @@ def check_query(next_cursor: str):
     if not len(next_cursor):
         query = {"filter": {"property": "Done", "checkbox": {"equals": True}}}
     else:
-        query = {"filter": {"property": "Done", "checkbox": {"equals": True}}, "start_cursor": next_cursor}
+        query = {
+            "filter": {"property": "Done", "checkbox": {"equals": True}},
+            "start_cursor": next_cursor,
+        }
     return query
 
 
 def retrieve_data(query: str):
     # This is how the curl GET request should be
-    '''
+    """
     curl -X GET https://api.notion.com/v1/database/{database_id} \
     -H "Authorization: Bearer {INEGRATION_TOKEN}" \
     -H "Content-Type: application/json" \
     -H "Notion-Version: 2021-05-13" \
-    '''
+    """
 
     # We will use the response generated above to get the data
-    response_data = requests.post(base_url + database_id + '/query', headers = request_headers, json=query)
+    response_data = requests.post(
+        base_url + database_id + "/query", headers=request_headers, json=query
+    )
 
     # Get json data from response
     data = response_data.json()
@@ -83,14 +87,13 @@ def retrieve_data(query: str):
     return data
 
 
-
 def decode_data(json_data):
     for page in json_data["results"]:
         problem_no = page["properties"]["No."]["number"]
         problem_props = {
             "times": page["properties"]["Times"]["number"],
             "level": page["properties"]["Level"]["select"]["name"],
-            "name": page["properties"]["Problem"]["title"][0]["plain_text"]
+            "name": page["properties"]["Problem"]["title"][0]["plain_text"],
         }
         problem_map[problem_no] = problem_props
         problem_list.append(problem_no)
@@ -112,10 +115,8 @@ def get_all_records():
         decode_data(pagination_list[i])
 
 
-
 def dict_decoder(x):
     return [i for i in x]
-
 
 
 # response1 = retrieve_data(query1)
