@@ -1,6 +1,9 @@
+import json
 import requests
 
+
 from config import settings
+from problem import Problem
 
 base_url = "https://api.notion.com/v1/databases/"
 database_id = settings.db_id
@@ -106,18 +109,6 @@ def retrieve_data(query: str):
     return data
 
 
-def decode_data(json_data):
-    for page in json_data["results"]:
-        problem_no = page["properties"]["No."]["number"]
-        problem_props = {
-            "times": page["properties"]["Times"]["number"],
-            "level": page["properties"]["Level"]["select"]["name"],
-            "name": page["properties"]["Problem"]["title"][0]["plain_text"],
-        }
-        problem_map[problem_no] = problem_props
-        problem_list.append(problem_no)
-
-
 def get_all_records():
     start_cursor = ""
     response = retrieve_data(check_query(start_cursor))
@@ -132,32 +123,22 @@ def get_all_records():
         pagination_list.append(new_response)
 
     for i in range(len(pagination_list)):
-        decode_data(pagination_list[i])
+        print(Problem.decode_data(pagination_list[i]))
 
 
 def dict_decoder(x):
     return [i for i in x]
 
 
-# response1 = retrieve_data(query1)
-# has_more = response1["has_more"]
-# pagination_list.append(response1)
-# print(response1["next_cursor"])
-# while has_more:
-#     response2 = retrieve_data(query2) # Notion limits pagination request to first 100 rows
-#     has_more = response2["has_more"]
-#     print(has_more)
-#     pagination_list.append(response2)
+response1 = retrieve_data(query1)
 
+muti_select = response1["results"][6]["properties"]["Data Structures"]["multi_select"]
+response1_str = json.dumps(muti_select, indent=4)
+print(Problem.get_patterns(muti_select))
 
-# print(response2["has_more"])
-
-# decode_data(pagination_list[0])
-# decode_data(pagination_list[1])
-
-# response1_str = json.dumps(response1["results"][0], indent=4)
-
-# print(response1)
+# date = response1["results"][0]["last_edited_time"]
+# dt = parser.parse(date)
+# print(dt.date())
 
 
 # problem = dict_decoder(response1["results"][0]["properties"]["Problem"]["title"][0]["plain_text"])
@@ -167,5 +148,5 @@ get_all_records()
 print(len(pagination_list))
 # print(dict_decoder(response1))
 print(len(problem_list))
-print(problem_map)
+# print(problem_map)
 # check_connectivity()
