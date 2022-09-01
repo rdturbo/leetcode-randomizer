@@ -14,6 +14,15 @@ class Problem:
 
     @staticmethod
     def decode_data(json_data: dict) -> "Problem":
+        """
+        Creates Problem object from json data
+
+        Args:
+            json_data (dict): json response from Notion
+
+        Returns:
+            Problem: Problem object coverted from json
+        """
         for page in json_data["results"]:
             prob_id = int(page["properties"]["No."]["number"])
             prob_name = page["properties"]["Problem"]["title"][0]["plain_text"]
@@ -35,4 +44,13 @@ class Problem:
 
     @staticmethod
     def get_patterns(multi_select: list) -> list[str]:
+        """
+        Parses through the Data Structures Header in Notion
+
+        Args:
+            multi_select (list): list of metadata of each pattern associated to the problem
+
+        Returns:
+            list[str]: list of patters
+        """
         return [pattern["name"] for pattern in multi_select]
