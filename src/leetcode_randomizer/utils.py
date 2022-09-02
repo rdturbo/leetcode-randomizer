@@ -1,4 +1,4 @@
-from problem import Problem
+from src.leetcode_randomizer.problem import Problem
 
 
 def dict_decoder(x: dict | list) -> list[str]:

@@ -1,8 +1,8 @@
 import requests
 
+from src.leetcode_randomizer import utils
+from src.leetcode_randomizer.config import settings
 
-from config import settings
-from utils import utils
 
 base_url = "https://api.notion.com/v1/databases/"
 database_id = settings.db_id
@@ -126,7 +126,4 @@ def get_all_records():
     pagination_list = build_pagination_list(response)
     problem_map = utils.get_problem_map(pagination_list)
 
-    print(problem_map)
-
-
-get_all_records()
+    return problem_map
