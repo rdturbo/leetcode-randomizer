@@ -1,3 +1,4 @@
+import random
 from src.leetcode_randomizer.problem import Problem
 
 
@@ -15,3 +16,16 @@ def get_problem_map(pagination_list: list) -> dict[int, Problem]:
             problem_map[problem.prob_id] = problem
 
     return problem_map
+
+
+def get_random_prob(problem_numbers: list[int]) -> int:
+    return random.choice(problem_numbers)
+
+
+def get_patterns():
+    return {
+        "array": "Array",
+        "dict": "Hash Table",
+        "linked": "Linked List",
+        "prefix": "PrefixSums",
+    }
