@@ -65,7 +65,14 @@ def main(limit, pattern):
     final_problems = randomize(limit, selected_pattern)
 
     for prob in final_problems:
-        click.echo(f"No.: {utils.get_num_padding(prob.prob_id)}\tProblem: {prob.name}")
+        diff = prob.diffculty
+        print_str = f"No.: {utils.get_num_padding(prob.prob_id)}\tProblem: {prob.name}"
+        if diff == "Easy":
+            click.secho(print_str, fg="green")
+        elif diff == "Medium":
+            click.secho(print_str, fg="yellow")
+        else:
+            click.secho(print_str, fg="red")
 
 
 def randomize(limit: int, pattern: str) -> list[Problem]:
