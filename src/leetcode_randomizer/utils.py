@@ -45,6 +45,7 @@ def get_patterns():
         "recursion": "Recursion",
         "sliding": "Sliding Window",
         "stack": "Stack",
+        "string": "String",
         "tree": "Tree",
         "two": "Two Pointers",
     }

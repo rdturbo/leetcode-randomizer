@@ -33,25 +33,26 @@ def main(limit, pattern):
 
     \b
     Choose a pattern from the following:
-    01. array       :   Array
-    02. binary      : Binary Search,
-    03. bit         : Bit Manipulation,
-    04. dict        : Hash Table,
-    05. dp          : DP,
-    06. graph       : Graph,
-    07. greedy      : Greedy,
-    08. heap        : Heap,
-    09. interval    : Intervals,
-    10. linked      : Linked List,
-    11. math        : Math,
-    12. matrix      : Matrix,
-    13. prefix      : PrefixSums,
-    14. queue       : Queue,
-    15. recursion   : Recursion,
-    16. sliding     : Sliding Window,
-    17. stack       : Stack,
-    18. tree        : Tree,
-    19. two         : Two Pointers,
+    01. array       : Array
+    02. binary      : Binary Search
+    03. bit         : Bit Manipulation
+    04. dict        : Hash Table
+    05. dp          : DP
+    06. graph       : Graph
+    07. greedy      : Greedy
+    08. heap        : Heap
+    09. interval    : Intervals
+    10. linked      : Linked List
+    11. math        : Math
+    12. matrix      : Matrix
+    13. prefix      : PrefixSums
+    14. queue       : Queue
+    15. recursion   : Recursion
+    16. sliding     : Sliding Window
+    17. stack       : Stack
+    18. string      : String
+    19. tree        : Tree
+    20. two         : Two Pointers
     \f
 
     Args:
