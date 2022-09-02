@@ -54,7 +54,7 @@ def check_connectivity():
             return False
 
 
-def check_query(next_cursor: str):
+def check_query(pattern: str, next_cursor: str) -> dict:
     if not len(next_cursor):
         query = {
             "filter": {
@@ -62,7 +62,7 @@ def check_query(next_cursor: str):
                     {"property": "Done", "checkbox": {"equals": True}},
                     {
                         "property": "Data Structures",
-                        "multi_select": {"contains": "Linked List"},
+                        "multi_select": {"contains": pattern},
                     },
                 ]
             }
@@ -74,7 +74,7 @@ def check_query(next_cursor: str):
                     {"property": "Done", "checkbox": {"equals": True}},
                     {
                         "property": "Data Structures",
-                        "multi_select": {"contains": "Linked List"},
+                        "multi_select": {"contains": pattern},
                     },
                 ]
             },
@@ -119,9 +119,9 @@ def build_pagination_list(json_data: dict) -> list:
     return pagination_list
 
 
-def get_all_records():
+def get_all_records(pattern: str) -> dict:
     start_cursor = ""
-    response = retrieve_data(check_query(start_cursor))
+    response = retrieve_data(check_query(pattern, start_cursor))
 
     pagination_list = build_pagination_list(response)
     problem_map = utils.get_problem_map(pagination_list)

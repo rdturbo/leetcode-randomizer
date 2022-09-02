@@ -22,10 +22,29 @@ def get_random_prob(problem_numbers: list[int]) -> int:
     return random.choice(problem_numbers)
 
 
+def get_num_padding(num: int) -> str:
+    return "{:4d}".format(num)
+
+
 def get_patterns():
     return {
         "array": "Array",
+        "binary": "Binary Search",
+        "bit": "Bit Manipulation",
         "dict": "Hash Table",
+        "dp": "DP",
+        "graph": "Graph",
+        "greedy": "Greedy",
+        "heap": "Heap",
+        "interval": "Intervals",
         "linked": "Linked List",
+        "math": "Math",
+        "matrix": "Matrix",
         "prefix": "PrefixSums",
+        "queue": "Queue",
+        "recursion": "Recursion",
+        "sliding": "Sliding Window",
+        "stack": "Stack",
+        "tree": "Tree",
+        "two": "Two Pointers",
     }
