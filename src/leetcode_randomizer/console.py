@@ -15,7 +15,7 @@ PATTERNS = utils.get_patterns()
     type=click.Choice(PATTERNS.keys()),
     default="linked",
     help="Select a pattern for the problems",
-    metavar="<list[str]>",
+    metavar="<list[pattern]>",
 )
 @click.option(
     "--limit",
@@ -68,6 +68,7 @@ def main(limit, pattern):
 
 
 def randomize(limit: int, pattern: str) -> list[Problem]:
+    """Returns list of <limit> problems of <pattern> type."""
     problems = notion.get_all_records(pattern)
     prob_ids = list(problems.keys())
     prob_set = set()
