@@ -1,9 +1,8 @@
-import json
 import requests
 
 
 from config import settings
-from problem import Problem
+from utils import utils
 
 base_url = "https://api.notion.com/v1/databases/"
 database_id = settings.db_id
@@ -16,10 +15,6 @@ query2 = {
     "filter": {"property": "Done", "checkbox": {"equals": True}},
     "start_cursor": next_cursor,
 }
-
-pagination_list = []
-problem_map = {}
-problem_list = []
 
 
 # Check for connectivity with notion API
@@ -92,7 +87,7 @@ def retrieve_data(query: str):
     # This is how the curl GET request should be
     """
     curl -X GET https://api.notion.com/v1/database/{database_id} \
-    -H "Authorization: Bearer {INEGRATION_TOKEN}" \
+    -H "Authorization: Bearer {INTEGRATION_TOKEN}" \
     -H "Content-Type: application/json" \
     -H "Notion-Version: 2021-05-13" \
     """
@@ -109,44 +104,29 @@ def retrieve_data(query: str):
     return data
 
 
-def get_all_records():
-    start_cursor = ""
-    response = retrieve_data(check_query(start_cursor))
+def build_pagination_list(json_data: dict) -> list:
+    pagination_list = []
 
-    has_more = response["has_more"]
-    pagination_list.append(response)
-    start_cursor = response["next_cursor"]
+    has_more = json_data["has_more"]
+    pagination_list.append(json_data)
+    start_cursor = json_data["next_cursor"]
 
     while has_more:
         new_response = retrieve_data(check_query(start_cursor))
         has_more = new_response["has_more"]
         pagination_list.append(new_response)
 
-    for i in range(len(pagination_list)):
-        print(Problem.decode_data(pagination_list[i]))
+    return pagination_list
 
 
-def dict_decoder(x):
-    return [i for i in x]
+def get_all_records():
+    start_cursor = ""
+    response = retrieve_data(check_query(start_cursor))
+
+    pagination_list = build_pagination_list(response)
+    problem_map = utils.get_problem_map(pagination_list)
+
+    print(problem_map)
 
 
-response1 = retrieve_data(query1)
-
-muti_select = response1["results"][6]["properties"]["Data Structures"]["multi_select"]
-response1_str = json.dumps(muti_select, indent=4)
-print(Problem.get_patterns(muti_select))
-
-# date = response1["results"][0]["last_edited_time"]
-# dt = parser.parse(date)
-# print(dt.date())
-
-
-# problem = dict_decoder(response1["results"][0]["properties"]["Problem"]["title"][0]["plain_text"])
-# problem = response1_str
-# print(problem)
 get_all_records()
-print(len(pagination_list))
-# print(dict_decoder(response1))
-print(len(problem_list))
-# print(problem_map)
-# check_connectivity()

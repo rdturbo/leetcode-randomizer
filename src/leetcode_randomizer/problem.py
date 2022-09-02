@@ -23,15 +23,14 @@ class Problem:
         Returns:
             Problem: Problem object coverted from json
         """
-        for page in json_data["results"]:
-            prob_id = int(page["properties"]["No."]["number"])
-            prob_name = page["properties"]["Problem"]["title"][0]["plain_text"]
-            prob_attempts = int(page["properties"]["Times"]["number"])
-            prob_diff = page["properties"]["Level"]["select"]["name"]
-            prob_date = parser.parse(page["last_edited_time"]).date()
-            prob_patterns = Problem.get_patterns(
-                page["properties"]["Data Structures"]["multi_select"]
-            )
+        prob_id = int(json_data["properties"]["No."]["number"])
+        prob_name = json_data["properties"]["Problem"]["title"][0]["plain_text"]
+        prob_attempts = int(json_data["properties"]["Times"]["number"])
+        prob_diff = json_data["properties"]["Level"]["select"]["name"]
+        prob_date = parser.parse(json_data["last_edited_time"]).date()
+        prob_patterns = Problem.get_patterns(
+            json_data["properties"]["Data Structures"]["multi_select"]
+        )
 
         return Problem(
             prob_id=prob_id,
