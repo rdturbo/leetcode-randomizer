@@ -47,5 +47,5 @@ def get_patterns():
         "stack": "Stack",
         "string": "String",
         "tree": "Tree",
-        "two": "Two Pointers",
+        "two": "Pointers",
     }

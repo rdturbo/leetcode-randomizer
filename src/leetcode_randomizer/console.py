@@ -52,7 +52,7 @@ def main(limit, pattern):
     17. stack       : Stack
     18. string      : String
     19. tree        : Tree
-    20. two         : Two Pointers
+    20. two         : Pointers
     \f
 
     Args:
